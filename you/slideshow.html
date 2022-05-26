@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlideShow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <style>
+        #container {
+            display: none;
+        }
+        #img {
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- <h1>Slide Show</h1> -->
+    <div class="my-5 container d-flex justify-content-evenly">
+        <button class="btn btn-primary" onclick="start()">Start Slideshow</button>
+        <button class="btn btn-primary" onclick="pause()">Pause SlideShow</button>
+    </div>
+
+    <div id="container" class=".container mx-auto">
+        <div class="row">
+            <div class="col-3 d-flex align-items-center">
+                <button class="btn btn-primary mx-auto" onclick="prev()">
+                    <
+                </button>
+                <!-- <h1 class="mx-auto mb-0 pb-0"><</h1> -->
+            </div>
+            <div class="col-6 border d-flex">
+                <img src="" alt="" id="img" class="d-block w-75 mx-auto">
+            </div>
+            <div class="col-3 d-flex align-items-center">
+                <button class="btn btn-primary mx-auto" onclick="next()">
+                    >
+                </button>
+                <!-- <h1 class="mx-auto mb-0 pb-0">></h1> -->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+    let i = 0;
+    let id;
+    function start() {
+        let images = JSON.parse(localStorage.getItem('images')) || [];
+
+        let container = document.getElementById('container');
+        container.style.display = 'block';
+        // document.createElement();
+        // container.innerHTML = null;
+        let image = images[i];
+
+        // append the image
+        // let img = document.createElement('img');
+        let img = document.querySelector('#img');
+        // img.classList='w-100 d-block';
+        img.src = image;
+        // container.append(img);
+
+        // 3 seconds
+
+        id = setInterval(function() {
+            // if (i == images.length) —> i = 0
+            i++;
+            if(i === images.length) {
+                i= 0;
+            }
+            // container.innerHTML = null;
+            image = images[i];
+
+            // append the image
+            // let img = document.createElement('img');
+            // img.classList='w-100 d-block';
+            img.src = image;
+            // container.append(img);
+
+
+        }, 3000);
+    }
+
+    function pause() {
+        clearInterval(id);
+    }
+
+    function prev() {
+        i--;
+        let images = JSON.parse(localStorage.getItem('images')) || [];
+        if(i==-1) {
+            i = images.length - 1;
+        }
+        let img = document.getElementById('img');
+        img.src=images[i];
+    }
+    function next() {
+        i++;
+        let images = JSON.parse(localStorage.getItem('images')) || [];
+        if(i==images.length) {
+            i = 0;
+        }
+        let img = document.getElementById('img');
+        img.src=images[i];
+    }
+</script>
